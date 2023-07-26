@@ -1,5 +1,6 @@
 import { Post } from '@/types';
 import styles from '@/styles/Post.module.css'
+import { useRouter } from 'next/router';
 
 type Props ={
   post: Post;
@@ -42,6 +43,13 @@ export async function getStaticPaths() {
 }
 
 const Post = ({post}:Props) => {
+
+  const router = useRouter();
+
+  if(router.isFallback){
+    return <div>読み込み中</div>
+  };
+
   return (
     <>
       <div className={styles.container}>
