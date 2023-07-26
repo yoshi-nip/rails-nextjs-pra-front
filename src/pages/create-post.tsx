@@ -1,15 +1,26 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import styles from '../styles/Home.module.css'
+import axios from 'axios';
 
 const CreatePost = () => {
   const [title,setTitle] = useState("");
   const [content,setContent] = useState("");
 
-  const handleSubmit = (e : FormEvent)=>{
+  const handleSubmit = async (e : FormEvent)=>{
     e.preventDefault();
 
     console.log(e);
     console.log(title,content);
+
+    try{
+      await axios.post("http://localhost:3001/api/v1/posts/",{
+        title : title,
+        content: content}
+      );
+
+    }catch(err){
+      alert("投稿に失敗したよ")
+    }
   };
 
   return (
