@@ -27,7 +27,11 @@ export async function getStaticProps(){
 export default function Home({posts}:Props) {
   return (
     <>
-    <div>
+    <div className={styles.homeContainer}>
+      <h2>Yoshiのブログ</h2>
+      <Link href="/create-post">
+        <button className={styles.createButton}>新規投稿</button>
+      </Link>
       <div>
         {posts.map((post:Post) =>(
           <div key={post.id} className={styles.postCard}>
