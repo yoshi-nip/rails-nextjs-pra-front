@@ -1,16 +1,17 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import styles from '../styles/Home.module.css'
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const CreatePost = () => {
   const [title,setTitle] = useState("");
   const [content,setContent] = useState("");
 
+  const router = useRouter();
+
   const handleSubmit = async (e : FormEvent)=>{
     e.preventDefault();
 
-    console.log(e);
-    console.log(title,content);
 
     try{
       await axios.post("http://localhost:3001/api/v1/posts/",{
@@ -18,6 +19,7 @@ const CreatePost = () => {
         content: content}
       );
 
+      router.push("/");
     }catch(err){
       alert("投稿に失敗したよ")
     }
