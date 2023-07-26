@@ -1,8 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link';
+import axios from 'axios';
 import { Inter } from 'next/font/google'
 import { Post } from '@/types';
 import styles from '@/styles/Home.module.css'
+import { useRouter } from 'next/router';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,6 +27,17 @@ export async function getStaticProps(){
 }
 
 export default function Home({posts}:Props) {
+  const router = useRouter();
+
+  const handleDelete = async (postId:string) => {
+    try{
+      await axios.delete(`http://localhost:3001/api/v1/posts/${postId}`);
+      router.reload();
+    }catch(err){
+      alert("削除に失敗しました");
+    };
+  }
+
   return (
     <>
     <div className={styles.homeContainer}>
@@ -42,7 +55,7 @@ export default function Home({posts}:Props) {
             <Link href={`/edit-post/${post.id}`}>
             <button className={styles.editButton}>編集</button>
             </Link>
-            <button className={styles.deleteButton}>削除</button>
+            <button className={styles.deleteButton} onClick={()=>handleDelete(post.id)}>削除</button>
           </div>
         ))}
     </div>
